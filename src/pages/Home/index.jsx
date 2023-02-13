@@ -2,28 +2,23 @@ import Header from "../../components/Header";
 import { HomeContainer, HomeVideosWrapper } from "./styles";
 import { API } from "../../services/Api";
 import { useEffect, useState } from "react";
-import YouTube from "react-youtube";
+import Card from "../../components/Pages/Home/Card";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [homeVideos, setHomeVideos] = useState([]);
-  const optsYoutubePlayer = {
-    height: "390",
-    width: "640",
-    playerVars: {
-      autoplay: 0,
-    },
-  };
+
   async function getHomeVideos() {
     await API.get("/videos", {
       params: {
-        part: "snippet",
         chart: "mostPopular",
         key: "AIzaSyAQ1rdGyNlDJtVC-2hTeQJPoR4Jh9bSQHs",
+        part: "snippet",
+        maxResults: 50,
       },
     })
       .then((response) => {
         response = response.data.items;
-        console.log(response);
         setHomeVideos(response);
       })
       .catch((e) => console.log(e));
@@ -34,7 +29,21 @@ export default function Home() {
   return (
     <HomeContainer>
       <Header />
-      <HomeVideosWrapper></HomeVideosWrapper>
+      <HomeVideosWrapper>
+        {homeVideos.length > 0 ? (
+          homeVideos.map((video) => (
+            <Link to={`play/${video.id}`}>
+              <Card
+                key={video.id}
+                title={video.snippet.title}
+                thumbnail={video.snippet.thumbnails.standard.url}
+              />
+            </Link>
+          ))
+        ) : (
+          <p>não há videos</p>
+        )}
+      </HomeVideosWrapper>
     </HomeContainer>
   );
 }
