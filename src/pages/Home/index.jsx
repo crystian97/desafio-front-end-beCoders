@@ -32,9 +32,8 @@ export default function Home() {
       <HomeVideosWrapper>
         {homeVideos.length > 0 ? (
           homeVideos.map((video) => (
-            <Link to={`play/${video.id}`}>
+            <Link key={video.id} to={`play/${video.id}`}>
               <Card
-                key={video.id}
                 title={video.snippet.title}
                 thumbnail={video.snippet.thumbnails.standard.url}
               />
