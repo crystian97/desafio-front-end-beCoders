@@ -15,15 +15,6 @@ export const Thumbnail = styled.img`
 
   border-radius: 12px;
 `;
-export const Credits = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0;
-  gap: 12px;
-  width: 276px;
-  height: 66px;
-`;
 
 export const Infos = styled.div`
   display: flex;
